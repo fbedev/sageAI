@@ -17,8 +17,33 @@
     </div>
     <footer>
         <span id="chineseVersion" onclick="switchLanguage()">中文版本</span>
-        <span id="developerLabel">Developed by fbe_dev</span>
+        <span id="developerLabel" onclick="showDeveloperInfo()">Developed by fbe_dev</span>
     </footer>
+
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeInfoModal()">&times;</span>
+            <h2>Sage AI Info</h2>
+            <ul>
+                <li>This chat system is made by fbe_dev, also known as 楊閔竣 in Chinese.</li>
+                <li>This is a beta model.</li>
+                <li>Please give feedback in our <a href="https://discord.gg/DtbtkeqRQW" target="_blank" style="text-decoration: underline; color: #5c9ce6;">Discord server</a>.</li>
+                <li>This is not a fully trained model.</li>
+                <li>The AI might generate false/toxic content.</li>
+                <li>Have fun!</li>
+            </ul>
+            <label for="modelDropdown">Choose model:</label>
+            <select id="modelDropdown">
+                <option value="fbe-gp2">fbe-gp2</option>
+                <option value="v1_math">v1_math</option>
+                <option value="fbe-gp3">fbe-gp3</option>
+                <option value="dial_advanced">dial_advanced</option>
+            </select>
+            <button id="setModelButton" onclick="setModel()">Set</button>
+        </div>
+    </div>
+
+    <div class="error-message" style="display: none;"></div>
 
     <script src="script.js"></script>
 </body>

@@ -3,6 +3,10 @@ const userInput = document.getElementById('userInput');
 const sendButton = document.getElementById('sendButton');
 const developerLabel = document.getElementById('developerLabel');
 const modelLabel = document.getElementById('modelLabel');
+const infoModal = document.getElementById('infoModal');
+const modelDropdown = document.getElementById('modelDropdown');
+const setModelButton = document.getElementById('setModelButton');
+const errorMessage = document.querySelector('.error-message');
 
 function addMessage(message, isUser) {
     const chatMessage = document.createElement('div');
@@ -56,6 +60,37 @@ function switchLanguage() {
     addMessage("Not available 未推出", false);
 }
 
+function showInfoModal() {
+    infoModal.style.display = 'block';
+}
+
+function closeInfoModal() {
+    infoModal.style.display = 'none';
+}
+
+function confirmInfo() {
+    closeInfoModal();
+}
+
+function setModel() {
+    const selectedModel = modelDropdown.value;
+    if (selectedModel !== 'fbe-gp2') {
+        showError('Model not available. Please choose "fbe-gp2".');
+    } else {
+        closeInfoModal();
+        modelLabel.textContent = 'AI model:' + selectedModel;
+    }
+}
+
+function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = 'block';
+    errorMessage.style.color = 'red';
+    setTimeout(() => {
+        errorMessage.style.display = 'none';
+    }, 3000);
+}
+
 chatbox.addEventListener('click', () => {
     userInput.focus();
 });
@@ -68,3 +103,8 @@ userInput.addEventListener('keyup', (event) => {
 
 sendButton.addEventListener('click', sendMessage);
 developerLabel.addEventListener('click', showDeveloperInfo);
+
+// Call the showInfoModal function when the page loads
+window.onload = showInfoModal;
+
+setModelButton.addEventListener('click', setModel);
