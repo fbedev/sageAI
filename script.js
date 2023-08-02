@@ -1,6 +1,8 @@
 const chatbox = document.getElementById('chatbox');
 const userInput = document.getElementById('userInput');
 const sendButton = document.getElementById('sendButton');
+const developerLabel = document.getElementById('developerLabel');
+const modelLabel = document.getElementById('modelLabel');
 
 function addMessage(message, isUser) {
     const chatMessage = document.createElement('div');
@@ -28,7 +30,12 @@ function sendMessage() {
         },
         body: JSON.stringify({ message: message }),
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         const response = "AI Bot: " + data.message;
         addMessage(response, false);
@@ -39,6 +46,20 @@ function sendMessage() {
     });
 }
 
+function showDeveloperInfo() {
+    addMessage('開發者：道明403-40楊閔竣', false);
+}
+
+function switchLanguage() {
+    // Logic to switch the language goes here
+    // For this example, let's simply add a message to the chatbox indicating that the Chinese version is not available
+    addMessage("Not available 未推出", false);
+}
+
+chatbox.addEventListener('click', () => {
+    userInput.focus();
+});
+
 userInput.addEventListener('keyup', (event) => {
     if (event.key === 'Enter') {
         sendMessage();
@@ -46,3 +67,4 @@ userInput.addEventListener('keyup', (event) => {
 });
 
 sendButton.addEventListener('click', sendMessage);
+developerLabel.addEventListener('click', showDeveloperInfo);

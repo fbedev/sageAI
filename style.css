@@ -1,12 +1,37 @@
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #5c9ce6;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.chat-container {
+    position: fixed;
+    top: 60px;
+    bottom: 60px; /* Adjust the bottom position to accommodate the footer */
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #5c9ce6;
 }
 
 #chatbox {
+    flex: 1;
     border: 1px solid #ccc;
     padding: 10px;
-    height: 300px;
     overflow-y: scroll;
+    background-color: #ffffff;
 }
 
 .chat-message {
@@ -22,6 +47,14 @@ body {
 
 .input-container {
     display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
 }
 
 #userInput {
@@ -54,4 +87,31 @@ body {
 
 #sendButton:active {
     transform: scale(0.9);
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #5c9ce6;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+footer span {
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+
+/* Media Query for Mobile Devices */
+@media (max-width: 600px) {
+    .chat-container {
+        top: 50px;
+        bottom: 50px; /* Adjust the bottom position for mobile display */
+    }
 }

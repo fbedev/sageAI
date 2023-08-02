@@ -5,11 +5,20 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div id="chatbox"></div>
-    <div class="input-container">
-        <input type="text" id="userInput" placeholder="Type your message...">
-        <button id="sendButton">Send</button>
+    <header>
+        <h1 id="modelLabel">AI model:fbe-gp2</h1>
+    </header>
+    <div class="chat-container">
+        <div id="chatbox"></div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Type your message...">
+            <button id="sendButton">Send</button>
+        </div>
     </div>
+    <footer>
+        <span id="chineseVersion" onclick="switchLanguage()">中文版本</span>
+        <span id="developerLabel">Developed by fbe_dev</span>
+    </footer>
 
     <script src="script.js"></script>
 </body>
