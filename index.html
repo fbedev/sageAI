@@ -65,7 +65,7 @@
 
         <div id="details" style="display: none;">
             <h3>Additional Information</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in quam in justo fermentum convallis vel eu nisi. Donec ullamcorper, ex eu eleifend gravida, elit risus dignissim elit.</p>
+            <p>楊閔竣</p>
         </div>
     </section>
 
@@ -75,20 +75,131 @@
             details.style.display = details.style.display === "none" ? "block" : "none";
         }
     </script>
-<script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<script>
+    (() => {
+  const e = "bp-web-widget";
+  const t = {};
+
+  function n(t) {
+    return t ? `${t}-container` : e;
+  }
+
+  function o(e) {
+    return e || "bp-widget";
+  }
+
+  function i(e, t, n = {}) {
+    const o = document.createElement(e);
+    Object.entries(n).forEach(([e, t]) => (o[e] = t));
+    const i = document.querySelector(t);
+    if (!i) throw new Error(`No element correspond to ${t}`);
+    return i.appendChild(o), o;
+  }
+
+  function r(e, t) {
+    const n = `bp-chat-key-${t.clientId}`;
+    let i = localStorage.getItem(n);
+    i || (
+      i = (function (e) {
+        const t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let n = "";
+        for (let o = 0; o < e; o++) n += t.charAt(Math.floor(Math.random() * t.length));
+        return n;
+      })(32),
+      localStorage.setItem(n, i)
+    );
+
+    const r = encodeURIComponent(JSON.stringify({ config: Object.assign(Object.assign({}, t), { encryptionKey: i }) }));
+    const a = encodeURIComponent(t.botConversationDescription || t.botName || "Chatbot");
+    const c = e + "/index.html?options=" + r;
+    return `<iframe id="${o(t.chatId)}" title="${a}" frameborder="0" src="${c}" class="bp-widget-web"/>`;
+  }
+
+  function a(e, t) {
+    return new Proxy(t, {
+      get: (t, n) => (t[n] ? t[n] : "iframeWindow" === n ? () => {
+        console.warn(`No webchat with id ${e} has been initialized. \n Please use window.botpressWebChat.init first.`);
+      } : "eventListener" === n ? { handler: () => { }, types: [] } : void 0),
+      set: (e, t, n) => ((e[t] = n), !0),
+    });
+  }
+
+  function c(n) {
+    return t[n = n || e];
+  }
+
+  function s(e, t) {
+    return document.querySelector(`#${e} #${t}`);
+  }
+
+  window.addEventListener("message", ({ data: e }) => {
+    var t, i, r;
+    if (!function (e) {
+      return e && "string" == typeof e.type && "string" == typeof e.chatId;
+    }(e)) return;
+    if ("UI.RESIZE" === e.type) {
+      const t = "number" == typeof e.value ? e.value + "px" : e.value;
+      s(n(e.chatId), o(e.chatId)).style.width = t;
+    }
+    if ("UI.SET-CLASS" === e.type) {
+      s(n(e.chatId), o(e.chatId)).setAttribute("class", e.value);
+    }
+    const a = c(e.chatId);
+    a && (null == (t = a.eventListener.topics) || void 0 === t ? void 0 : t.some((t) => "*" === t || t === e.type)) &&
+      (null == (r = (i = a.eventListener).handler) || void 0 === r || r.call(i, e));
+  });
+
+  window.botpressWebChat = {
+    init: function (c, d) {
+      d = d || "body";
+      c.chatId = c.chatId || e;
+      const f = c.hostUrl || "";
+      i("link", "head", { rel: "stylesheet", href: `${f}/inject.css` });
+      const l = r(f, c);
+      const u = n(c.chatId);
+      const h = o(c.chatId);
+      i("div", d, { id: u, innerHTML: l });
+      const p = { iframeWindow: s(u, h).contentWindow };
+      t[c.chatId] ? Object.assign(t[c.chatId], p) : (t[c.chatId] = a(c.chatId, p));
+    },
+    configure: function (e, t) {
+      c(t).iframeWindow.postMessage({ action: "configure", payload: e }, "*");
+    },
+    sendEvent: function (e, t) {
+      c(t).iframeWindow.postMessage({ action: "event", payload: e }, "*");
+    },
+    mergeConfig: function (e, t) {
+      c(t).iframeWindow.postMessage({ action: "mergeConfig", payload: e }, "*");
+    },
+    sendPayload: function (e, t) {
+      c(t).iframeWindow.postMessage({ action: "sendPayload", payload: e }, "*");
+    },
+    onEvent: function (n, o = [], i) {
+      if (typeof n !== "function") throw new Error("EventHandler is not a function, please provide a function");
+      if (!Array.isArray(o)) throw new Error("Topics should be an array of supported event types");
+      const r = { eventListener: { handler: n, topics: o } };
+      t[i = i || e] ? Object.assign(t[i], r) : (t[i] = a(i, r));
+    },
+  };
+})();
+//# sourceMappingURL=inject.js.map
+
+</script>
+
 <script>
   window.botpressWebChat.init({
-      "composerPlaceholder": "Chat with bot",
-      "botConversationDescription": "by 楊閔竣",
+      "composerPlaceholder": "Chat with SageAI",
+      "botConversationDescription": "An AI by 楊閔竣",
       "botId": "c1805a82-4b30-4fcd-95ee-fa42da7885f4",
       "hostUrl": "https://cdn.botpress.cloud/webchat/v1",
       "messagingUrl": "https://messaging.botpress.cloud",
       "clientId": "c1805a82-4b30-4fcd-95ee-fa42da7885f4",
       "webhookId": "2d49d5d2-867b-4a3a-b216-5e6cdfe245bf",
       "lazySocket": true,
-      "themeName": "prism",
+      "themeName": "blue",
+      "botName": "SageAI",
+      "avatarUrl": "https://media.discordapp.net/attachments/1172924169290260570/1172924272105242825/IMG_2376.jpg?ex=65748ada&is=656215da&hm=b9d2452f22395f030c68b2e8217b7be094779c304936404e3b619bd437a68ca8&=&format=webp&width=792&height=1056",
       "frontendVersion": "v1",
-      "showPoweredBy": false,
       "theme": "prism",
       "themeColor": "#2563eb"
   });
